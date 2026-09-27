@@ -1,30 +1,120 @@
-# Ai Chat Interface
+# AI Chat Interface
 
-*Automatically synced with your [v0.app](https://v0.app) deployments*
+A modern, responsive AI chat interface built with Next.js, React, and Tailwind CSS.
+It renders a polished conversational UI — agent/user message bubbles, avatars,
+timestamps, and per-message actions (copy, download, thumbs up/down) — styled
+with shadcn/ui primitives and Lucide icons.
 
-[![Deployed on Vercel](https://img.shields.io/badge/Deployed%20on-Vercel-black?style=for-the-badge&logo=vercel)](https://vercel.com/gileb64375-5584s-projects/v0-ai-chat-interface)
-[![Built with v0](https://img.shields.io/badge/Built%20with-v0.app-black?style=for-the-badge)](https://v0.app/chat/projects/VTVLIyWEhJz)
+> Demo app: the conversation shown is a static demo exchange. Wire your own
+> backend (OpenAI, Anthropic, NVIDIA NIM, or any LLM API) into the
+> `ChatInterface` component to make it fully interactive.
 
-## Overview
+## Features
 
-This repository will stay in sync with your deployed chats on [v0.app](https://v0.app).
-Any changes you make to your deployed app will be automatically pushed to this repository from [v0.app](https://v0.app).
+- 💬 Clean chat UI with distinct agent and user message bubbles
+- 👤 Agent avatar + username/timestamp headers per message
+- ⚡ Message actions: copy to clipboard, download, thumbs up/down feedback
+- 🖱️ Smooth auto-scrolling message area (`ScrollArea`)
+- 🎨 Dark-mode ready theming via `next-themes`
+- 📱 Responsive layout (flex column, max-width message bubbles)
+- 🧩 Reusable UI primitives (Button, Textarea, ScrollArea, ThemeProvider)
+- ♿ Accessible Radix UI foundations with keyboard support
 
-## Deployment
+## Tech Stack
 
-Your project is live at:
+- **Framework:** Next.js 15 (App Router, React 19, TypeScript)
+- **Styling:** Tailwind CSS + `tailwindcss-animate`, shadcn/ui components
+- **UI primitives:** Radix UI (dialog, dropdown, scroll-area, tabs, toast, …)
+- **Icons:** Lucide React
+- **Fonts:** Geist (`geist` package)
+- **Analytics:** Vercel Analytics
+- **Forms/extras:** React Hook Form, date-fns, cmdk, embla-carousel, recharts
 
-**[https://vercel.com/gileb64375-5584s-projects/v0-ai-chat-interface](https://vercel.com/gileb64375-5584s-projects/v0-ai-chat-interface)**
+## Quick Start
 
-## Build your app
+```bash
+# Install dependencies (pnpm or npm)
+pnpm install
+# or: npm install
 
-Continue building your app on:
+# Run the dev server
+pnpm dev
+# or: npm run dev
+```
 
-**[https://v0.app/chat/projects/VTVLIyWEhJz](https://v0.app/chat/projects/VTVLIyWEhJz)**
+Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-## How It Works
+### Build for production
 
-1. Create and modify your project using [v0.app](https://v0.app)
-2. Deploy your chats from the v0 interface
-3. Changes are automatically pushed to this repository
-4. Vercel deploys the latest version from this repository
+```bash
+pnpm build
+pnpm start
+```
+
+### Static export (Cloudflare Pages / GitHub Pages)
+
+The app has no API routes or server-only features, so it can be fully
+statically exported. Add `output: "export"` to `next.config.mjs` and build:
+
+```bash
+next build   # writes static files to ./out
+```
+
+Deploy the `out/` directory to Cloudflare Pages (or push it to the
+`gh-pages` branch for GitHub Pages).
+
+## Project Structure
+
+```
+.
+├── app/
+│   ├── layout.tsx        # Root layout (theme provider, analytics, metadata)
+│   ├── page.tsx          # Home page -> renders ChatInterface
+│   └── globals.css       # Tailwind + global styles
+├── chat-interface.tsx    # Main chat UI component (messages, input, actions)
+├── layout.tsx            # Alternate/legacy root layout
+├── page.tsx              # Alternate/legacy page
+├── components/
+│   ├── theme-provider.tsx
+│   └── ui/               # shadcn/ui primitives (button, textarea, scroll-area, …)
+├── lib/
+│   └── utils.ts          # cn() class-merge helper
+├── styles/
+│   └── globals.css       # Additional global styles
+├── public/               # Static assets & placeholder images
+├── next.config.mjs       # Next.js config (images unoptimized)
+├── tailwind.config.ts    # Tailwind theme config
+└── components.json       # shadcn/ui config
+```
+
+## Environment Variables
+
+None required — the app runs fully client-side with demo data.
+
+To connect a real AI backend, add your key as an env var (e.g. in `.env.local`):
+
+```bash
+OPENAI_API_KEY=sk-...      # or ANTHROPIC_API_KEY=..., etc.
+```
+
+Then replace the demo `messages` state in `chat-interface.tsx` with calls to
+your API route or LLM provider SDK.
+
+## Deployment Notes
+
+- **Vercel:** push to GitHub and import the repo — zero config (`next build`
+  / `next start` defaults).
+- **Cloudflare Pages:** enable static export (`output: "export"`) and set the
+  build command to `next build` with output directory `out`.
+- **GitHub Pages:** same static-export build, deploy the `out/` folder from
+  the `gh-pages` branch.
+- `next.config.mjs` already sets `images.unoptimized: true`, which is required
+  for static-export image support.
+
+## License
+
+MIT — free to use, modify, and share.
+
+---
+
+Built by Girish Lade — https://ladestack.in
